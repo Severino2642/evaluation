@@ -32,6 +32,7 @@
                         <span class="hide-menu">Settings</span>
                     </a>
                     <ul class="collapse">
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'data/'}">Database settings</a></li>
                         <li><a th:href="${home + 'employee/settings/google-services'}">Google setting</a></li>
                         <li>
                             <a href="javascript:void(0)" class="has-arrow">Notification setting</a>
@@ -154,6 +155,16 @@
                         <li><a th:href="${home + 'employee/email-template/create'}">Create Template</a></li>
                     </ul>
                 </li>
+                <li class="nav-small-cap">--- Budgets</li>
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
+                        <i class="fas fa-wallet"></i>
+                        <span class="hide-menu">Budgets</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'budget/insert'}">Add budget</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul id="sidebarnav" th:if="${#authorization.expression('hasRole(''ROLE_CUSTOMER'')')}">
                 <li class="user-pro">
@@ -208,6 +219,16 @@
                         <i class="fas fa-file-contract"></i>
                         <span class="hide-menu">My Contracts</span>
                     </a>
+                </li>
+                <li class="nav-small-cap">--- Budgets</li>
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
+                        <i class="fas fa-wallet"></i>
+                        <span class="hide-menu">Budgets</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a th:href="${home + 'budget/'}">My budget</a></li>
+                    </ul>
                 </li>
             </ul>
         </nav>
