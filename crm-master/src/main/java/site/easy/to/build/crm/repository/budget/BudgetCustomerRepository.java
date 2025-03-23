@@ -16,7 +16,7 @@ public interface BudgetCustomerRepository extends JpaRepository<BudgetCustomer, 
     public List<BudgetCustomer> findAll();
 
     @Query(value = "SELECT SUM(montant) FROM budget b WHERE b.customer_id = :customerId",nativeQuery = true)
-    public double getBudgetTotalByCustomerId(@Param("customerId") int customerId);
+    public Double getBudgetTotalByCustomerId(@Param("customerId") int customerId);
 
 
 }

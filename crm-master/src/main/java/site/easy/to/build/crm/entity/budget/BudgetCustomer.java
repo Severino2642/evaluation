@@ -2,6 +2,11 @@ package site.easy.to.build.crm.entity.budget;
 
 import jakarta.persistence.*;
 import site.easy.to.build.crm.entity.Customer;
+import site.easy.to.build.crm.repository.depense.LeadDepenseRepository;
+import site.easy.to.build.crm.repository.depense.TicketDepenseRepository;
+import site.easy.to.build.crm.service.budget.BudgetCustomerService;
+import site.easy.to.build.crm.service.depense.LeadDepenseService;
+import site.easy.to.build.crm.service.depense.TicketDepenseService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -64,5 +69,11 @@ public class BudgetCustomer {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public static double getBudgetRestant(int customerId,BudgetCustomerService budgetCustomerService, LeadDepenseService leadDepenseService, TicketDepenseService ticketDepenseService) {
+        double total_depense = leadDepenseService.getDepenseTotalByCustomerId(customerId) + ticketDepenseService.getDepenseTotalByCustomerId(customerId);
+        double reste_budget = budgetCustomerService.getBudgetTotalByCustomerId(customerId) - total_depense;
+        return reste_budget;
     }
 }

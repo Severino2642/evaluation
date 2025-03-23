@@ -535,3 +535,10 @@ CREATE TABLE IF NOT EXISTS `depense_ticket` (
     CONSTRAINT `fk_depense_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `trigger_ticket` (`ticket_id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS `taux_alerte_budget` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `taux` decimal(10,2) DEFAULT 0,
+    `date_ajout` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

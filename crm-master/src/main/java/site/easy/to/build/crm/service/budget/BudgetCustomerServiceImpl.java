@@ -32,7 +32,11 @@ public class BudgetCustomerServiceImpl implements BudgetCustomerService {
 
     @Override
     public double getBudgetTotalByCustomerId(int customerId) {
-        return budgetCustomerRepository.getBudgetTotalByCustomerId(customerId);
+        Double total = budgetCustomerRepository.getBudgetTotalByCustomerId(customerId);
+        if (total == null) {
+            return 0;
+        }
+        return total;
     }
 
     @Override

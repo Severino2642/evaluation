@@ -3,8 +3,10 @@ package site.easy.to.build.crm.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import site.easy.to.build.crm.entity.depense.LeadDepense;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -216,6 +218,23 @@ public class Lead {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public static List<Lead> getLeadSansDepense(List<Lead> allLead, List<LeadDepense> allLeadDepense) {
+        List<Lead> leadSansDepense = new ArrayList<Lead>();
+        for (Lead lead : allLead) {
+            boolean found = false;
+            for (LeadDepense leadDepense : allLeadDepense) {
+                if (leadDepense.getLead().getLeadId() == lead.getLeadId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                leadSansDepense.add(lead);
+            }
+        }
+        return leadSansDepense;
     }
 }
 

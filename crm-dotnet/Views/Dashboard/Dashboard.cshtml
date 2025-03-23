@@ -1,0 +1,183 @@
+﻿@using Newtonsoft.Json
+@using crm_dotnet.Models.entity
+@using crm_dotnet.Models.outil
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    DashboardManager dashboardManager = (DashboardManager)ViewData["dashboardManager"];
+    String[] mois = dashboardManager.getListMonth();
+    int annee = 2025;
+}
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            @Html.Partial("_leftSideBar")
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-8 p-10">
+                                        <a asp-controller="Dashboard" asp-action="AffDetailsBudget">
+                                            <div class="card l-bg-green">
+                                            <div class="card-statistic-3">
+                                                <div class="card-icon card-icon-large"><i class="fa fa-wallet"></i></div>
+                                                <div class="card-content">
+                                                    <h4 class="card-title">Budgets</h4>
+                                                    <span>@dashboardManager.getSommeBudget()</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-8 p-10">
+                                        <a asp-controller="Dashboard" asp-action="AffDetailsTicketDepense">
+                                            <div class="card l-bg-orange">
+                                            <div class="card-statistic-3">
+                                                <div class="card-icon card-icon-large"><i class="fa fa-money-bill-alt"></i></div>
+                                                <div class="card-content">
+                                                    <h4 class="card-title">Ticket Depenses</h4>
+                                                    <span>@dashboardManager.getSommeTicketDepense()</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </a>
+                                       
+                                    </div>
+                                    <div class="col-xl-4 col-lg-8 p-10">
+                                        <a asp-controller="Dashboard" asp-action="AffDetailsLeadDepense"> 
+                                           <div class="card l-bg-orange">
+                                            <div class="card-statistic-3">
+                                                <div class="card-icon card-icon-large"><i class="fa fa-money-bill-alt"></i></div>
+                                                <div class="card-content">
+                                                    <h4 class="card-title">Lead Depenses</h4>
+                                                    <span>@dashboardManager.getSommeLeadDepense()</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Budget graphique</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="lineChartFill1"></canvas>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                        <div class="card-header">
+                                            <h4>Ticket Depense graphique</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="lineChartFill2"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>Lead Depense graphique</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="lineChartFill3"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+ 
+   @section Scripts {
+    <script>
+        console.log("Ce script est spécifique à la page d'accueil.");
+
+        console.log("testststst");
+            function affGraphique(labels,data,id,borderColor,backgroundColor){
+                var ctx = document.getElementById("lineChartFill"+id);
+                console.log(labels);
+                if (ctx) {
+	                ctx.height = 150;
+                    datasets = [
+				                {
+					                label: "",
+					                borderColor: borderColor,
+					                borderWidth: "1",
+					                backgroundColor: backgroundColor,
+					                data: data
+				                }
+			                ];
+	                var myChart = new Chart(ctx, {
+		                type: 'line',
+		                data: {
+			                labels: labels,
+			                datasets: datasets
+		                },
+		                options: {
+			                legend: {
+				                position: 'top',
+				                labels: {
+				                }
+
+			                },
+			                responsive: true,
+			                tooltips: {
+				                mode: 'index',
+				                intersect: false
+			                },
+			                hover: {
+				                mode: 'nearest',
+				                intersect: true
+			                },
+			                scales: {
+				                xAxes: [{
+					                ticks: {
+						                fontColor: "#9aa0ac", // Font Color
+					                }
+				                }],
+				                yAxes: [{
+					                ticks: {
+						                beginAtZero: true,
+						                fontColor: "#9aa0ac", // Font Color
+					                }
+				                }]
+			                }
+
+		                }
+	                });
+                }
+            }
+
+                document.addEventListener("DOMContentLoaded", function () {
+        affGraphique(@Html.Raw(JsonConvert.SerializeObject(mois)), 
+                     @Html.Raw(JsonConvert.SerializeObject(dashboardManager.GetSommeBudgetParMois(annee))), 
+                     1, 
+                     "rgba(0, 123, 255, 0.7)", 
+                     "rgba(0, 123, 255, 0.5)");
+
+        affGraphique(@Html.Raw(JsonConvert.SerializeObject(mois)), 
+                     @Html.Raw(JsonConvert.SerializeObject(dashboardManager.GetSommeTicketDepenseParMois(annee))), 
+                     2, 
+                     "rgba(255, 200, 0,0.7)", 
+                     "rgba(255, 200, 0,0.5)");
+
+        affGraphique(@Html.Raw(JsonConvert.SerializeObject(mois)), 
+                     @Html.Raw(JsonConvert.SerializeObject(dashboardManager.GetSommeLeadDepenseParMois(annee))), 
+                     3, 
+                     "rgba(255, 200, 0,0.7)", 
+                     "rgba(255, 200, 0,0.5)");
+    });
+
+
+    </script>
+    
+}

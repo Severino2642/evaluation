@@ -32,6 +32,10 @@ public class DatabaseCleanupController {
         listTables.add("file");
         listTables.add("google_drive_file");
         listTables.add("lead_action");
+        listTables.add("depense_ticket");
+        listTables.add("depense_lead");
+        listTables.add("budget");
+        listTables.add("taux_alerte_budget");
 
         databaseCleanupService.disableContrainte(0);
         System.out.println("Database cleanup ........");
@@ -59,7 +63,10 @@ public class DatabaseCleanupController {
         listTables.add("file");
         listTables.add("google_drive_file");
         listTables.add("lead_action");
-
+        listTables.add("depense_ticket");
+        listTables.add("depense_lead");
+        listTables.add("budget");
+        listTables.add("taux_alerte_budget");
         model.addAttribute("tables", listTables);
         return "data/data";
     }

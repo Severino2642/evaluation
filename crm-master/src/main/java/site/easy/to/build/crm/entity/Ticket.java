@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.mapping.ToOne;
+import site.easy.to.build.crm.entity.depense.LeadDepense;
+import site.easy.to.build.crm.entity.depense.TicketDepense;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "trigger_ticket")
@@ -132,5 +136,22 @@ public class Ticket {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public static List<Ticket> getTicketSansDepense(List<Ticket> allTicket, List<TicketDepense> allTicketDepense) {
+        List<Ticket> ticketSansDepense = new ArrayList<Ticket>();
+        for (Ticket ticket : allTicket) {
+            boolean found = false;
+            for (TicketDepense ticketDepense : allTicketDepense) {
+                if (ticketDepense.getTicket().getTicketId() == ticket.getTicketId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                ticketSansDepense.add(ticket);
+            }
+        }
+        return ticketSansDepense;
     }
 }

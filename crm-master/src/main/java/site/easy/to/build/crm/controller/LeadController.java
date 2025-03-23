@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import site.easy.to.build.crm.entity.*;
+import site.easy.to.build.crm.entity.depense.LeadDepense;
 import site.easy.to.build.crm.entity.settings.LeadEmailSettings;
 import site.easy.to.build.crm.google.model.calendar.EventDisplay;
 import site.easy.to.build.crm.google.model.drive.GoogleDriveFolder;
@@ -25,7 +26,10 @@ import site.easy.to.build.crm.google.service.acess.GoogleAccessService;
 import site.easy.to.build.crm.google.service.calendar.GoogleCalendarApiService;
 import site.easy.to.build.crm.google.service.drive.GoogleDriveApiService;
 import site.easy.to.build.crm.google.service.gmail.GoogleGmailApiService;
+import site.easy.to.build.crm.service.budget.BudgetCustomerService;
 import site.easy.to.build.crm.service.customer.CustomerService;
+import site.easy.to.build.crm.service.depense.LeadDepenseService;
+import site.easy.to.build.crm.service.depense.TicketDepenseService;
 import site.easy.to.build.crm.service.drive.GoogleDriveFileService;
 import site.easy.to.build.crm.service.file.FileService;
 import site.easy.to.build.crm.service.lead.LeadActionService;
@@ -60,12 +64,15 @@ public class LeadController {
     private final LeadEmailSettingsService leadEmailSettingsService;
     private final GoogleGmailApiService googleGmailApiService;
     private final EntityManager entityManager;
+    private final LeadDepenseService leadDepenseService;
+    private final BudgetCustomerService budgetCustomerService;
+    private final TicketDepenseService ticketDepenseService;
 
     @Autowired
     public LeadController(LeadService leadService, AuthenticationUtils authenticationUtils, UserService userService, CustomerService customerService,
                           LeadActionService leadActionService, GoogleCalendarApiService googleCalendarApiService, FileService fileService,
                           GoogleDriveApiService googleDriveApiService, GoogleDriveFileService googleDriveFileService, FileUtil fileUtil,
-                          LeadEmailSettingsService leadEmailSettingsService, GoogleGmailApiService googleGmailApiService, EntityManager entityManager) {
+                          LeadEmailSettingsService leadEmailSettingsService, GoogleGmailApiService googleGmailApiService, EntityManager entityManager, LeadDepenseService leadDepenseService, BudgetCustomerService budgetCustomerService, TicketDepenseService ticketDepenseService) {
         this.leadService = leadService;
         this.authenticationUtils = authenticationUtils;
         this.userService = userService;
@@ -79,6 +86,9 @@ public class LeadController {
         this.leadEmailSettingsService = leadEmailSettingsService;
         this.googleGmailApiService = googleGmailApiService;
         this.entityManager = entityManager;
+        this.leadDepenseService = leadDepenseService;
+        this.budgetCustomerService = budgetCustomerService;
+        this.ticketDepenseService = ticketDepenseService;
     }
 
     @GetMapping("/show/{id}")
@@ -170,6 +180,7 @@ public class LeadController {
                              Authentication authentication, @RequestParam("allFiles")@Nullable String files,
                              @RequestParam("folderId") @Nullable String folderId, Model model) throws JsonProcessingException {
 
+
         int userId = authenticationUtils.getLoggedInUserId(authentication);
         User manager = userService.findById(userId);
         if(manager.isInactiveUser()) {
@@ -221,6 +232,7 @@ public class LeadController {
         if(AuthorizationUtil.hasRole(authentication, "ROLE_MANAGER")) {
             return "redirect:/employee/lead/created-leads";
         }
+
         return "redirect:/employee/lead/assigned-leads";
     }
 

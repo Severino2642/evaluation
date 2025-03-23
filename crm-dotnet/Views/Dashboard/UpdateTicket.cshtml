@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using crm_dotnet.Models.entity
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    TicketDepense ticketDepense = (TicketDepense)ViewData["ticketDepense"];
+}
+<div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            @Html.Partial("_leftSideBar")
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Modification du montant de ticket</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form asp-controller="Dashboard" asp-action="UpdateTicket" method="post">
+                                            <input type="hidden" name="id" value="@ticketDepense.Id" required/>
+                                           
+                                            <div class="form-group">
+                                                <label>Montant</label>
+                                                <input class="form-control" type="number" name="montant" value="@ticketDepense.Montant" required/>
+                                            </div>
+                                           
+                                            <button type="submit" class="btn btn-primary">Modifier</button>
+                                            <a asp-controller="Dashboard" asp-action="AffDetailsTicketDepense" class="btn btn-danger">Annuler</a>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
