@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Bwg2oZDlM5gAsYQMEbKQWTTrH7NThr3A2pXzTOw7o83Hyi9EofO/QvLuO0yd+/kaTUFNS0A+aE4e0EoclQ48kw==",
+  "success": true,
+  "projectFilePath": "D:\\ETUDE ITU\\Evaluation\\Java\\crm-dotnet\\crm-dotnet.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\diva\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

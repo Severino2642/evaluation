@@ -16,6 +16,10 @@ import site.easy.to.build.crm.entity.budget.BudgetCustomer;
 import site.easy.to.build.crm.google.model.gmail.Attachment;
 import site.easy.to.build.crm.service.budget.BudgetCustomerService;
 import site.easy.to.build.crm.service.customer.CustomerService;
+import site.easy.to.build.crm.service.depense.LeadDepenseService;
+import site.easy.to.build.crm.service.depense.TicketDepenseService;
+import site.easy.to.build.crm.service.lead.LeadService;
+import site.easy.to.build.crm.service.ticket.TicketService;
 import site.easy.to.build.crm.util.AuthenticationUtils;
 import site.easy.to.build.crm.util.AuthorizationUtil;
 
@@ -31,11 +35,15 @@ public class BudgetCustomerController{
     private final AuthenticationUtils authenticationUtils;
     private final CustomerService customerService;
     private final BudgetCustomerService budgetCustomerService;
+    private final LeadDepenseService leadDepenseService;
+    private final TicketDepenseService ticketDepenseService;
 
-    public BudgetCustomerController(AuthenticationUtils authenticationUtils, CustomerService customerService, BudgetCustomerService budgetCustomerService) {
+    public BudgetCustomerController(AuthenticationUtils authenticationUtils, CustomerService customerService, BudgetCustomerService budgetCustomerService, LeadDepenseService leadDepenseService, TicketDepenseService ticketDepenseService) {
         this.authenticationUtils = authenticationUtils;
         this.customerService = customerService;
         this.budgetCustomerService = budgetCustomerService;
+        this.leadDepenseService = leadDepenseService;
+        this.ticketDepenseService = ticketDepenseService;
     }
 
     @GetMapping("/insert")
@@ -63,6 +71,8 @@ public class BudgetCustomerController{
         else {
             model.addAttribute("message","le montant invalide");
         }
+        List<Customer> customers = customerService.findAll();
+        model.addAttribute("customers", customers);
         return "budget/add-budget";
     }
 
@@ -72,8 +82,14 @@ public class BudgetCustomerController{
         Customer customer = customerService.findByProfileId(profileId);
         List<BudgetCustomer> budgetCustomers = budgetCustomerService.findByCustomerId(customer.getCustomerId());
         double totalBudget = budgetCustomerService.getBudgetTotalByCustomerId(customer.getCustomerId());
+        double totalBudgetRestant = BudgetCustomer.getBudgetRestant(customer.getCustomerId(),budgetCustomerService,leadDepenseService,ticketDepenseService);
+        double totalTicketDepense = ticketDepenseService.getDepenseTotalByCustomerId(customer.getCustomerId());
+        double totalLeadDepense = leadDepenseService.getDepenseTotalByCustomerId(customer.getCustomerId());
         model.addAttribute("budgets", budgetCustomers);
         model.addAttribute("totalBudget", totalBudget);
+        model.addAttribute("totalBudgetRestant", totalBudgetRestant);
+        model.addAttribute("totalTicketDepense", totalTicketDepense);
+        model.addAttribute("totalLeadDepense", totalLeadDepense);
         return "budget/list-budget";
     }
 
