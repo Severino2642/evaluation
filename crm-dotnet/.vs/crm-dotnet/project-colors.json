@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e50e78c8-d625-4864-a9eb-36037f7c46c1": {
+      "ProjectGuid": "e50e78c8-d625-4864-a9eb-36037f7c46c1",
+      "DisplayName": "crm-dotnet",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

@@ -1,0 +1,65 @@
+﻿@using crm_dotnet.Models.entity
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    LeadDepense[] leadDepenses = (LeadDepense[])ViewData["leadDepenses"];
+}
+<div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            @Html.Partial("_leftSideBar")
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <div class="section-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Details de lead depense</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="table-1">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>ID Lead</th>
+                                                    <th>Nom</th>
+                                                    <th>Client</th>
+                                                    <th>Employer assigner</th>
+                                                    <th>Montant de depense</th>
+                                                    <th>Date d'ajout de depense</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var l in leadDepenses)
+                                                    {
+                                                        <tr>
+                                                            <td>@l.Id</td>
+                                                            <td>@l.Lead_id</td>
+                                                            <td>@l.Lead.Name</td>
+                                                            <td>@l.Lead.Customer.Name</td>
+                                                            <td>@l.Lead.Employee.Username</td>
+                                                            <td>@l.Montant</td>
+                                                            <td>@l.Date_ajout</td>
+                                                            <td>
+                                                                <a asp-controller="Dashboard" asp-action="DeleteLead" asp-route-id="@l.Id" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                                                <a asp-controller="Dashboard" asp-action="ShowFormUpdateLead" asp-route-id="@l.Id" class="btn btn-danger"><i class="fa fa-edit"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>

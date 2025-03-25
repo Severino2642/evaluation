@@ -73,7 +73,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Add Budget</h4>
-                            <form th:action="${home + 'budget/insert'}"  id="budget-form" method="post">
+                            <form th:if="${customers.size()>0}" th:action="${home + 'budget/insert'}"  id="budget-form" method="post">
                                 <label class="m-t-20" for="customerId">Customer:</label>
                                 <div class="input-group">
                                     <select name="customerId" id="customerId" class="form-control">
@@ -82,13 +82,15 @@
                                 </div>
                                 <label class="m-t-20" for="montant">Montant:</label>
                                 <div class="input-group">
-                                    <input type="number" id="montant" name="montant" class="form-control" required="required">
+                                    <input type="number" id="montant" step="0.01" name="montant" class="form-control" required="required">
                                 </div>
                                 <div class="input-group">
                                     <span class="text-danger font-weight-bold" th:if="${message!=null}" th:text="${message}"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary m-t-20">Add budget</button>
                             </form>
+
+                            <p class="text-danger" th:if="${customers.size()<=0}">Aucune Customer</p>
                         </div>
                     </div>
                 </div>
